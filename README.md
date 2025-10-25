@@ -2,14 +2,14 @@
 
 # WebGL-GPU-Detector
 
-A lightweight browser WebGL GPU hardware acceleration detection component, used to determine whether the current browser has enabled real GPU hardware acceleration instead of software-emulated acceleration.
+A lightweight browser WebGL GPU hardware acceleration detection component, used to determine whether the current browser has WebGL GPU hardware acceleration enabled.
 
-## Feature Description
+## Features
 
-This component detects the browser's rendering backend through the WebGL API, with the following core features:
-- Detect whether the browser supports WebGL or Experimental-WebGL context.
-- Determine if the current rendering uses real GPU hardware acceleration, excluding software rendering (e.g., SwiftShader, LLVMPipe).
-- If hardware acceleration is not detected, an automatic prompt will pop up to guide the user to enable the browser's hardware acceleration feature and restart the browser.
+This component detects the browser's rendering backend through the WebGL API, with the following core functions:
+- Detect whether the browser supports WebGL or Experimental-WebGL context
+- Determine if the current browser has WebGL GPU hardware acceleration enabled
+- If hardware acceleration is not detected, automatically pop up a prompt to guide users to enable the browser's hardware acceleration function and restart
 
 ---
 
@@ -17,11 +17,11 @@ This component detects the browser's rendering backend through the WebGL API, wi
 
 The component has no dependencies on other libraries and is simple to use, supporting two integration methods:
 
-1. **Directly Embed in HTML**
-Copy and paste the provided complete `<script>` tag directly into the `<head>` or `<body>` tag of the HTML page. The component will automatically execute the detection after the page loads.
+1. **Directly embed in HTML**
+Copy the provided complete `<script>` tag directly into the `<head>` or `<body>` tag of the HTML page. The component will automatically perform detection after the page loads.
 
-2. **Import JS File**
-Save the script content as an independent JS file (e.g., `gpu-detector.js`), and import it in the page via the `<script>` tag. The component will automatically initialize the detection after the file is loaded.
+2. **Import JS file**
+Save the script content as an independent JS file (e.g., `gpu-detector.js`), and import it in the page via the `<script>` tag. The component will automatically initialize detection after the file loads.
 
 ---
 
@@ -51,7 +51,7 @@ The complete detection script is as follows:
             const softwareKeywords = ['software', 'swiftshader', 'llvmpipe', 'microsoft basic render driver'];
             return !softwareKeywords.some(keyword => renderer.includes(keyword));
         } catch (e) {
-            console.error('GPU加速检测异常');
+            console.error('GPU acceleration detection exception');
             return false;
         } finally {
             if (canvas && canvas.parentNode) {
@@ -65,7 +65,7 @@ The complete detection script is as follows:
             if (isAccelerated) {
                 return;
             }
-            alert('未检测到浏览器GPU加速支持😥，这可能会导致页面有卡顿\n请前往浏览器设置页面开启类似\n“在可用时使用图形加速”或“硬件加速”\n的选项，开启后请重启浏览器');
+            alert('No browser GPU acceleration support detected 😥, which may cause page lag\nPlease go to browser settings to enable options like\n"Use graphics acceleration when available" or "Hardware acceleration"\nAfter enabling, please restart the browser');
         }, 3000);
     }
     if (document.readyState === 'loading') {
@@ -80,33 +80,33 @@ The complete detection script is as follows:
 
 ## Detection Logic
 
-1. **Environment Check**: First, determine if the browser supports `WebGLRenderingContext`. If not, it is directly judged that hardware acceleration is not enabled.
-2. **WebGL Context Creation**: Attempt to create a `webgl` or `experimental-webgl` context and specify high-performance preference parameters.
+1. **Environment Check**: First determine if the browser supports `WebGLRenderingContext`. If not, directly判定为未启用硬件加速 (determine that hardware acceleration is not enabled).
+2. **WebGL Context Creation**: Attempt to create a `webgl` or `experimental-webgl` context, specifying high-performance preference parameters.
 3. **Renderer Information Acquisition**: Obtain graphics card renderer information through the `WEBGL_debug_renderer_info` extension.
-4. **Software Rendering Exclusion**: Check if the renderer information contains software rendering keywords (e.g., `software`, `swiftshader`). If included, it is judged that hardware acceleration is not enabled.
+4. **Acceleration Status Judgment**: Determine whether WebGL GPU hardware acceleration is enabled based on the renderer information.
 
 ---
 
 ## Notes
 
-- Some browsers may restrict access to the `WEBGL_debug_renderer_info` extension due to privacy settings or security policies, in which case it will be judged that hardware acceleration is not enabled.
-- The detection will be executed with a 3-second delay after the page loads to avoid affecting page initialization performance.
-- The temporary `canvas` element created by the component will be automatically cleaned up after the detection ends, leaving no residual DOM nodes.
-- Note that since the created `canvas` is not added to the DOM tree (no `appendChild` is executed after `document.createElement`), `canvas.parentNode` is always `null`, so the cleanup logic in the `finally` block does not actually execute. This part of the code can be simplified if needed.
+- Some browsers may restrict access to the `WEBGL_debug_renderer_info` extension due to privacy settings or security policies, in which case it will be determined that hardware acceleration is not enabled.
+- Detection will be executed 3 seconds after the page finishes loading to avoid affecting page initialization performance.
+- The temporary `canvas` element created by the component will be automatically cleaned up after detection, leaving no residual DOM nodes.
+- Note that since the created `canvas` is not added to the DOM tree (no `appendChild` is executed after `document.createElement`), `canvas.parentNode` is always `null`, so the cleanup logic in the `finally` block will not actually execute. If needed, this part of the code can be simplified.
 
 ---
 
-# 中文
+# 中文：
 
 # WebGL-GPU-Detector
 
-一个轻量级的浏览器WebGL GPU硬件加速检测组件，用于判断当前浏览器是否启用了真实的GPU硬件加速，而非软件模拟加速
+一个轻量级的浏览器WebGL GPU硬件加速检测组件，用于判断当前浏览器是否启用了WebGL GPU硬件加速
 
 ## 功能说明
 
 该组件通过WebGL API检测浏览器的渲染后端，核心功能如下：
 - 检测浏览器是否支持WebGL或Experimental-WebGL上下文
-- 判断当前渲染是否使用真实GPU硬件加速，排除软件渲染（如SwiftShader、LLVMPipe等）
+- 判断当前浏览器是否启用了WebGL GPU硬件加速
 - 若未检测到硬件加速，自动弹出提示，引导用户开启浏览器硬件加速功能并重启
 
 ---
@@ -181,7 +181,7 @@ The complete detection script is as follows:
 1. **环境检查**：首先判断浏览器是否支持`WebGLRenderingContext`，不支持则直接判定为未启用硬件加速
 2. **WebGL上下文创建**：尝试创建`webgl`或`experimental-webgl`上下文，并指定高性能偏好参数
 3. **渲染器信息获取**：通过`WEBGL_debug_renderer_info`扩展获取显卡渲染器信息
-4. **软件渲染排除**：检查渲染器信息中是否包含软件渲染关键词（如`software`、`swiftshader`），包含则判定为未启用硬件加速
+4. **加速状态判断**：基于渲染器信息判断是否启用了WebGL GPU硬件加速
 
 ---
 
