@@ -80,7 +80,7 @@ The complete detection script is as follows:
 
 ## Detection Logic
 
-1. **Environment Check**: First determine if the browser supports `WebGLRenderingContext`. If not, directly判定为未启用硬件加速 (determine that hardware acceleration is not enabled).
+1. **Environment Check**: First determine if the browser supports `WebGLRenderingContext`. If not, directly determine that hardware acceleration is not enabled.
 2. **WebGL Context Creation**: Attempt to create a `webgl` or `experimental-webgl` context, specifying high-performance preference parameters.
 3. **Renderer Information Acquisition**: Obtain graphics card renderer information through the `WEBGL_debug_renderer_info` extension.
 4. **Acceleration Status Judgment**: Determine whether WebGL GPU hardware acceleration is enabled based on the renderer information.
